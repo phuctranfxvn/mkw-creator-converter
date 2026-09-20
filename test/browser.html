@@ -1,0 +1,50 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>browser test</title></head><body>
+<pre id="out">running…</pre>
+<script src="../js/vendor/fflate.min.js"></script>
+<script src="../js/profiles/creator5.js"></script>
+<script src="../js/i18n.js"></script>
+<script src="../js/converter.js"></script>
+<script>
+var log = [], fails = 0;
+function check(n, c, x) { if (!c) fails++; log.push((c ? 'ok   ' : 'FAIL ') + n + (c ? '' : '  -> ' + JSON.stringify(x))); }
+window.onerror = function (m) { fails++; log.push('FAIL uncaught: ' + m); render(); };
+function render() { document.getElementById('out').textContent = log.join('\n') + '\nRESULT ' + (fails ? 'FAIL ' + fails : 'PASS'); }
+
+(async function () {
+  try {
+    var buf = await (await fetch('fixtures/makerworld_a1mini.3mf')).arrayBuffer();
+    var entries = await new Promise(function (res, rej) {
+      fflate.unzip(new Uint8Array(buf), function (e, d) { e ? rej(e) : res(d); });
+    });
+    check('unzip via web worker', Object.keys(entries).length > 5, Object.keys(entries).length);
+
+    var tpl = C5Profiles.get('creator5-0.4').config;
+    var r = C5Converter.convert(entries, tpl, C5Converter.DEFAULTS);
+    var cfg = JSON.parse(new TextDecoder().decode(r.files['Metadata/project_settings.config']));
+    check('converted to Creator 5', cfg.printer_settings_id === 'Flashforge Creator 5 0.4 nozzle', cfg.printer_settings_id);
+    check('recentred from 180 bed', r.report.recentered && r.report.recentered.dx === 38, r.report.recentered);
+    check('colours mapped', cfg.filament_colour.length === 3, cfg.filament_colour);
+
+    var out = await new Promise(function (res, rej) {
+      fflate.zip(r.files, { level: 6 }, function (e, d) { e ? rej(e) : res(d); });
+    });
+    check('re-zipped in browser', out.length > 1000, out.length);
+
+    var back = await new Promise(function (res, rej) {
+      fflate.unzip(out, function (e, d) { e ? rej(e) : res(d); });
+    });
+    check('output re-opens', !!back['3D/3dmodel.model'] && !!back['Metadata/project_settings.config']);
+
+    var blob = new Blob([out], { type: 'model/3mf' });
+    check('Blob for download works', blob.size === out.length, blob.size);
+
+    I18N.set('en');
+    check('i18n en', /Worth checking/.test(I18N.t('w.title')), I18N.t('w.title'));
+    I18N.set('vi');
+    check('i18n vi interpolates', I18N.t('w.off_plate', { x: 5, y: 9 }).indexOf('5, 9') > -1, I18N.t('w.off_plate', { x: 5, y: 9 }));
+  } catch (e) {
+    fails++; log.push('FAIL threw: ' + (e && e.message));
+  }
+  render();
+})();
+</script></body></html>

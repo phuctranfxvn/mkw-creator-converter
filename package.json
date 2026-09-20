@@ -1,0 +1,19 @@
+{
+  "name": "makerworld-to-creator-5",
+  "version": "1.0.0",
+  "description": "Convert MakerWorld 3MF project files into Orca-Flashforge projects for the Flashforge Creator 5. Runs entirely in the browser.",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "python3 -m http.server 5173",
+    "test": "node test/run.cjs && node test/ui.cjs && node test/samples.cjs",
+    "fixtures": "node test/make-fixture.cjs \"\" p1s && node test/make-fixture.cjs \"\" a1mini",
+    "extract-profile": "node tools/extract-profile.mjs"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "fflate": "^0.8.2"
+  },
+  "private": true
+}

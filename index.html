@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MakerWorld to Creator 5</title>
+<meta name="description" content="Convert MakerWorld 3MF project files into Orca-Flashforge projects for the Flashforge Creator 5. Runs entirely in your browser.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖨️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Quicksand:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="8" y="3" width="16" height="7" rx="2.5" />
+        <rect x="3" y="10" width="26" height="12" rx="4" />
+        <rect x="8" y="20" width="16" height="9" rx="2.5" />
+        <circle cx="24" cy="15" r="1.9" fill="#e4322b" />
+      </svg>
+      <span class="brand-name" data-i18n="app.title">MakerWorld to Creator 5</span>
+    </div>
+    <p class="readout" id="readout"></p>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" class="lang on" data-lang="vi">VI</button>
+      <button type="button" class="lang" data-lang="en">EN</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <p class="tagline" data-i18n="app.tagline"></p>
+
+  <div class="layout">
+
+    <!-- --------------------------------------------------- intake (left) -->
+    <div class="intake">
+
+      <div class="drop" id="drop" tabindex="0" role="button" aria-describedby="drop-sub">
+        <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 16.5V4.5m0 0L7.5 9M12 4.5 16.5 9" />
+          <path d="M4 14v4.5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V14" />
+        </svg>
+        <p class="drop-title" data-i18n="drop.title"></p>
+        <p class="drop-sub" id="drop-sub" data-i18n="drop.sub"></p>
+        <input type="file" id="file" accept=".3mf,model/3mf" multiple hidden>
+      </div>
+
+      <!-- ------------------------------------------------------- the queue -->
+      <div class="queue" id="queue" hidden>
+        <ul class="queue-list" id="queue-list"></ul>
+        <div class="queue-actions">
+          <button type="button" class="btn big" id="convert"></button>
+          <button type="button" class="btn link" id="queue-clear" data-i18n="queue.clear"></button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- -------------------------------------------- control panel (left) -->
+    <div class="controls">
+      <details class="panel" id="options" open>
+        <summary>
+          <span data-i18n="opt.title">Tùy chọn</span>
+          <span class="summary-state" id="opt-state"></span>
+        </summary>
+
+        <div class="panel-body">
+
+          <div class="field">
+            <label class="field-label" for="printer" data-i18n="opt.printer"></label>
+            <select id="printer"></select>
+            <p class="hint" data-i18n="opt.printer.hint"></p>
+          </div>
+
+          <div class="field">
+            <span class="field-label" data-i18n="opt.mode"></span>
+            <div class="seg-group" id="modes" role="radiogroup" aria-label="Mode"></div>
+            <p class="seg-desc" id="modes-desc"></p>
+          </div>
+
+          <div class="field" id="quality-field">
+            <span class="field-label" data-i18n="opt.quality"></span>
+            <div class="seg-group" id="quality" role="radiogroup" aria-label="Quality"></div>
+            <p class="seg-desc" id="quality-desc"></p>
+            <p class="hint" data-i18n="opt.quality.d"></p>
+          </div>
+
+          <div class="field">
+            <div class="checks" id="checks"></div>
+          </div>
+
+          <div class="field donor">
+            <span class="field-label" data-i18n="opt.donor"></span>
+            <p class="hint" data-i18n="opt.donor.d"></p>
+            <div class="donor-row">
+              <button type="button" class="btn ghost" id="donor-btn" data-i18n="opt.donor.btn"></button>
+              <button type="button" class="btn link" id="donor-clear" data-i18n="opt.donor.clear" hidden></button>
+              <input type="file" id="donor-file" accept=".3mf" hidden>
+            </div>
+            <p class="donor-status" id="donor-status" hidden></p>
+          </div>
+
+          <button type="button" class="btn link" id="reset" data-i18n="opt.reset"></button>
+        </div>
+      </details>
+    </div>
+
+    <!-- -------------------------------------------------- results (right) -->
+    <div class="output">
+      <section id="results-section">
+        <div class="results-head">
+          <h2 data-i18n="res.title"></h2>
+          <div class="results-actions">
+            <button type="button" class="btn" id="download-all" hidden data-i18n="res.downloadAll"></button>
+            <button type="button" class="btn link" id="clear" hidden data-i18n="res.clear"></button>
+          </div>
+        </div>
+        <p class="results-empty" id="results-empty" data-i18n="res.empty"></p>
+        <ul class="results" id="results"></ul>
+      </section>
+    </div>
+
+  </div>
+
+  <!-- ------------------------------------------------------------- how-to -->
+  <section class="howto">
+    <h2 data-i18n="how.title"></h2>
+    <ol>
+      <li data-i18n="how.1"></li>
+      <li data-i18n="how.2"></li>
+      <li data-i18n="how.3"></li>
+      <li data-i18n="how.4"></li>
+    </ol>
+    <p class="hint" data-i18n="how.note"></p>
+  </section>
+
+</main>
+
+<footer class="wrap foot">
+  <p data-i18n="app.privacy"></p>
+</footer>
+
+<script src="js/vendor/fflate.min.js"></script>
+<script src="js/profiles/creator5.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/converter.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

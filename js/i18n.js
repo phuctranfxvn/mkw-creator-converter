@@ -1,0 +1,233 @@
+/* UI strings. Vietnamese is the default; English is one click away. */
+(function (root, factory) {
+  var mod = factory();
+  if (typeof module === 'object' && module.exports) module.exports = mod;
+  else root.I18N = mod;
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  var STRINGS = {
+    vi: {
+      'app.title': 'MakerWorld to Creator 5',
+      'app.tagline': 'Đổi file 3MF tải từ MakerWorld thành project mở được bằng Orca-Flashforge cho Flashforge Creator 5.',
+      'app.privacy': 'Mọi xử lý diễn ra ngay trong trình duyệt. File của bạn không được gửi đi đâu cả.',
+
+      'drop.title': 'Kéo thả file .3mf vào đây',
+      'drop.sub': 'hoặc bấm để chọn — nhiều file cũng được, chưa chuyển đổi ngay',
+      'drop.busy': 'Đang xử lý…',
+      'queue.convert': 'Chuyển đổi {n} file',
+      'queue.convert1': 'Chuyển đổi',
+      'queue.clear': 'Bỏ hết',
+      'queue.remove': 'Bỏ file này',
+
+      'opt.title': 'Tùy chọn',
+      'opt.printer': 'Máy in đích',
+      'opt.printer.hint': 'Profile Creator 5 0.4mm được trích từ một project Orca-Flashforge thật. Bản Pro chỉ đổi tên máy, thông số còn lại giống bản thường.',
+      'opt.mode': 'Mức độ chuyển đổi',
+      'opt.mode.full': 'Đầy đủ',
+      'opt.mode.full.s': 'Đầy đủ',
+      'opt.mode.profile.s': 'Profile máy',
+      'opt.mode.geometry.s': 'Hình học',
+      'opt.mode.full.d': 'Đổi profile máy, giữ lại thiết lập in của người thiết kế, map filament và màu sang slot của Creator 5.',
+      'opt.mode.profile': 'Chỉ đổi profile máy',
+      'opt.mode.profile.d': 'Dùng nguyên thiết lập in mặc định của Creator 5, bỏ qua thiết lập từ file gốc.',
+      'opt.mode.geometry': 'Chỉ lấy hình học',
+      'opt.mode.geometry.d': 'Xuất 3MF thuần hình học, không kèm thiết lập nào. Bạn tự chọn profile trong Orca-Flashforge.',
+      'opt.carry': 'Giữ thiết lập in của người thiết kế',
+      'opt.carry.d': 'Layer height, infill, support, brim, seam, ironing… Tốc độ, gia tốc và nhiệt độ của Bambu luôn bị bỏ.',
+      'opt.retune': 'Chỉnh nhiệt độ theo loại nhựa',
+      'opt.retune.d': 'Đặt nhiệt đầu phun và bàn nhiệt theo loại nhựa từng slot. Giá trị chung chung, nên kiểm lại trước khi in.',
+      'opt.recenter': 'Canh lại giữa bàn in',
+      'opt.recenter.d': 'Dời model nếu bàn in máy gốc khác kích thước với bàn 256×256 của Creator 5.',
+      'opt.thumbs': 'Giữ ảnh preview',
+      'opt.aux': 'Bỏ thư mục Auxiliary',
+      'opt.aux.d': 'Ảnh và tài liệu kèm theo từ MakerWorld, chỉ làm nặng file.',
+      'opt.quality': 'Mức độ đẹp',
+      'opt.quality.d': 'Không đụng tới layer height, mật độ infill và ironing — đó mới là những thứ nhân thời gian in lên, và hai cái đầu là lựa chọn của người thiết kế. Các mức dưới đây chỉ đánh đổi tốc độ ở tường ngoài, vốn chiếm một phần nhỏ thời gian đùn.',
+      'opt.quality.note': 'Thẻ kết quả liệt kê đúng từng giá trị bị đổi. Con số thời gian in thật thì Orca-Flashforge sẽ cho sau khi slice.',
+      'q.off': 'Giữ nguyên',
+      'q.off.d': 'Dùng nguyên tốc độ và gia tốc của profile Creator 5.',
+      'q.light': 'Nhẹ',
+      'q.light.d': 'Đường cong mượt hơn (arc fitting, resolution 0.008), tường ngoài và chiều cao Z đúng kích thước hơn, hạ gia tốc mặt trên. Thời gian in gần như không đổi.',
+      'q.balanced': 'Cân bằng',
+      'q.balanced.d': 'Thêm: hạ tốc độ và gia tốc tường ngoài, chậm lại ở phần nhô ra và bắc cầu, tránh đi ngang qua tường, giảm cong mép. Tốc độ tường ngoài còn bị chặn theo lưu lượng đùn, nên layer càng dày càng tự động chậm lại. Đây là mức đáng dùng nhất.',
+      'q.max': 'Tối đa',
+      'q.max.d': 'Thêm: tường ngoài chậm hơn nữa, hạ gia tốc toàn cục, thêm một lớp mặt trên và một vòng tường. Đẹp nhất, nhưng thời gian tăng rõ.',
+      'res.quality': 'Mức độ đẹp',
+      'res.qualityChanges': 'thiết lập đã chỉnh',
+      'res.flow': 'Tường ngoài {speed} mm/s ở layer {layer} mm ≈ {rate} mm³/s',
+      'res.flowLimited': 'trần lưu lượng {cap} mm³/s quyết định con số này, không phải hệ số tốc độ',
+      'opt.donor': 'Profile riêng của bạn',
+      'opt.donor.d': 'Kéo vào một file .3mf đã lưu từ Orca-Flashforge trên máy của bạn để lấy đúng profile đó (nozzle khác 0.4, máy đã tinh chỉnh…).',
+      'opt.donor.btn': 'Chọn file 3MF Creator 5',
+      'opt.donor.clear': 'Bỏ dùng',
+      'opt.donor.ok': 'Đang dùng profile từ:',
+      'opt.reset': 'Về mặc định',
+
+      'res.title': 'Kết quả',
+      'res.empty': 'Chọn file rồi bấm Chuyển đổi. Kết quả sẽ hiện ở đây, file mới nhất nằm trên cùng.',
+      'res.again': 'Chuyển đổi lại',
+      'res.download': 'Tải xuống',
+      'res.downloadAll': 'Tải tất cả',
+      'res.clear': 'Xóa danh sách',
+      'res.from': 'Máy gốc',
+      'res.to': 'Máy đích',
+      'res.unknown': 'không rõ',
+      'res.plain': '3MF thuần hình học',
+      'res.bed': 'Bàn in',
+      'res.moved': 'đã dời',
+      'res.objects': 'Vị trí vật thể',
+      'res.plates': 'Số khay in',
+      'res.size': 'Dung lượng',
+      'res.filaments': 'Filament',
+      'res.carried': 'Thiết lập giữ lại',
+      'res.remapped': 'Giá trị đã dịch',
+      'res.dropped': 'Tệp đã loại bỏ',
+      'res.slot': 'Slot',
+
+      'w.title': 'Lưu ý',
+      'w.too_many_filaments': 'File gốc dùng {n} filament nhưng Creator 5 chỉ có {max} slot. Các slot vượt quá đã bị gộp về slot cuối — hãy kiểm tra lại phần gán màu.',
+      'w.material_guess': 'Slot {slot} là {type}. Tên preset "{preset}" là suy đoán; thông số nhiệt đã được ghi thẳng vào file nên vẫn mở được, nhưng nên chọn lại preset đúng trong Orca-Flashforge.',
+      'w.unknown_material': 'Slot {slot} dùng loại nhựa lạ ({type}), đã tạm đặt thành PLA.',
+      'w.off_plate': 'Có {n} vật thể nằm ngoài bàn in (vật thể đầu tiên ở {x}, {y}). Mở file rồi bấm phím A trong Orca-Flashforge để sắp xếp lại.',
+      'w.multi_plate': 'File có {n} khay in. Orca-Flashforge chỉ slice khay đang chọn — chuyển khay ở thanh dưới màn hình để in các khay còn lại.',
+      'w.multi_plate_bed_mismatch': 'File có {n} khay in và bàn máy gốc ({sx}×{sy}) khác bàn Creator 5 ({tx}×{ty}). Vị trí không được dời tự động vì mỗi khay có gốc tọa độ riêng — hãy kiểm tra từng khay và bấm A để sắp xếp lại.',
+      'w.extruder_clamped': 'Có {n} chi tiết được gán đầu phun vượt quá {max} slot, đã đưa về slot {max}.',
+      'w.donor_bad': 'Không đọc được profile từ file đó. Cần một file .3mf lưu từ Orca-Flashforge (có Metadata/project_settings.config).',
+      'w.donor_not_c5': 'File donor là của máy "{printer}", không phải Creator 5. Vẫn dùng được nhưng hãy chắc chắn đó là điều bạn muốn.',
+
+      'err.title': 'Lỗi',
+      'err.NO_MODEL': 'File này không chứa hình học 3MF hợp lệ (thiếu 3D/3dmodel.model).',
+      'err.BAD_ZIP': 'Không giải nén được. File có thể hỏng hoặc không phải .3mf.',
+      'err.generic': 'Không chuyển đổi được file này.',
+
+      'how.title': 'Dùng thế nào',
+      'how.1': 'Tải file .3mf của model từ MakerWorld (nút Download → Print Profile hoặc Original File).',
+      'how.2': 'Kéo file vào ô bên trái, chỉnh tuỳ chọn nếu cần, rồi bấm Chuyển đổi và tải kết quả về.',
+      'how.3': 'Mở file kết quả bằng Orca-Flashforge, kiểm tra filament từng slot và vị trí trên bàn.',
+      'how.4': 'Slice và gửi sang máy như bình thường.',
+      'how.note': 'Công cụ này đổi thiết lập chứ không sửa hình học. Model thiết kế riêng cho AMS hay cho bàn in lớn hơn 256×256 vẫn cần bạn chỉnh tay.'
+    },
+
+    en: {
+      'app.title': 'MakerWorld to Creator 5',
+      'app.tagline': 'Turn a 3MF downloaded from MakerWorld into a project Orca-Flashforge will open for the Flashforge Creator 5.',
+      'app.privacy': 'Everything runs in your browser. Your files are never uploaded.',
+
+      'drop.title': 'Drop .3mf files here',
+      'drop.sub': 'or click to browse — several at once is fine, nothing converts yet',
+      'drop.busy': 'Working…',
+      'queue.convert': 'Convert {n} files',
+      'queue.convert1': 'Convert',
+      'queue.clear': 'Clear',
+      'queue.remove': 'Remove this file',
+
+      'opt.title': 'Options',
+      'opt.printer': 'Target printer',
+      'opt.printer.hint': 'The Creator 5 0.4mm profile was extracted from a real Orca-Flashforge project. The Pro entry only changes the printer name; the rest is identical.',
+      'opt.mode': 'Conversion depth',
+      'opt.mode.full': 'Full',
+      'opt.mode.full.s': 'Full',
+      'opt.mode.profile.s': 'Profile only',
+      'opt.mode.geometry.s': 'Geometry',
+      'opt.mode.full.d': 'Swap the machine profile, keep the designer’s print settings, map filaments and colours onto Creator 5 slots.',
+      'opt.mode.profile': 'Machine profile only',
+      'opt.mode.profile.d': 'Use stock Creator 5 print settings and ignore the ones in the source file.',
+      'opt.mode.geometry': 'Geometry only',
+      'opt.mode.geometry.d': 'Write a plain geometry 3MF with no settings at all. You pick the profile in Orca-Flashforge.',
+      'opt.carry': 'Keep the designer’s print settings',
+      'opt.carry.d': 'Layer height, infill, supports, brim, seam, ironing… Bambu speeds, accelerations and temperatures are always discarded.',
+      'opt.retune': 'Retune temperatures per material',
+      'opt.retune.d': 'Set nozzle and bed temperature from each slot’s material. Generic values — check them before printing.',
+      'opt.recenter': 'Re-centre on the plate',
+      'opt.recenter.d': 'Shift the models when the source printer’s bed differs from the Creator 5’s 256×256.',
+      'opt.thumbs': 'Keep preview images',
+      'opt.aux': 'Drop the Auxiliary folder',
+      'opt.aux.d': 'MakerWorld’s bundled images and docs — weight with no effect on the print.',
+      'opt.quality': 'Surface quality',
+      'opt.quality.d': 'Layer height, infill density and ironing are left alone — those are what multiply print time, and the first two are the designer\u2019s call. These tiers only trade speed on the outer wall, which is a small share of total extrusion.',
+      'opt.quality.note': 'The result card lists every value that changed. Orca-Flashforge gives you the real print time once it slices.',
+      'q.off': 'Leave as-is',
+      'q.off.d': 'Keep the Creator 5 profile\u2019s own speeds and accelerations.',
+      'q.light': 'Light',
+      'q.light.d': 'Smoother curves (arc fitting, 0.008 resolution), truer outer wall and Z height, gentler top-surface acceleration. Print time barely moves.',
+      'q.balanced': 'Balanced',
+      'q.balanced.d': 'Adds slower outer wall speed and acceleration, slower overhangs and bridges, no travel across walls, less curling. The outer wall is also capped by extrusion rate, so thicker layers slow down on their own. The tier worth picking.',
+      'q.max': 'Maximum',
+      'q.max.d': 'Adds a slower outer wall still, lower acceleration throughout, one more top layer and one more wall loop. Best finish, clearly longer.',
+      'res.quality': 'Quality',
+      'res.qualityChanges': 'settings adjusted',
+      'res.flow': 'Outer wall {speed} mm/s at {layer} mm layers \u2248 {rate} mm\u00b3/s',
+      'res.flowLimited': 'the {cap} mm\u00b3/s flow cap set this, not the speed factor',
+      'opt.donor': 'Your own profile',
+      'opt.donor.d': 'Drop in a .3mf saved from your own Orca-Flashforge to reuse that exact profile (other nozzle sizes, tuned machines…).',
+      'opt.donor.btn': 'Choose a Creator 5 3MF',
+      'opt.donor.clear': 'Stop using it',
+      'opt.donor.ok': 'Using the profile from:',
+      'opt.reset': 'Reset to defaults',
+
+      'res.title': 'Results',
+      'res.empty': 'Add files and press Convert. Results land here, newest first.',
+      'res.again': 'Convert again',
+      'res.download': 'Download',
+      'res.downloadAll': 'Download all',
+      'res.clear': 'Clear list',
+      'res.from': 'Source printer',
+      'res.to': 'Target printer',
+      'res.unknown': 'unknown',
+      'res.plain': 'plain geometry 3MF',
+      'res.bed': 'Bed',
+      'res.moved': 'moved',
+      'res.objects': 'Object positions',
+      'res.plates': 'Plates',
+      'res.size': 'Size',
+      'res.filaments': 'Filaments',
+      'res.carried': 'Settings carried over',
+      'res.remapped': 'Values translated',
+      'res.dropped': 'Files dropped',
+      'res.slot': 'Slot',
+
+      'w.title': 'Worth checking',
+      'w.too_many_filaments': 'The source uses {n} filaments but the Creator 5 has {max} slots. The extra ones were folded into the last slot — review the colour assignment.',
+      'w.material_guess': 'Slot {slot} is {type}. The preset name "{preset}" is a guess; the thermal values are written into the file so it still opens, but pick the right preset in Orca-Flashforge.',
+      'w.unknown_material': 'Slot {slot} uses an unrecognised material ({type}); it was set to PLA.',
+      'w.off_plate': '{n} objects sit off the plate (the first at {x}, {y}). Open the file and press A in Orca-Flashforge to arrange.',
+      'w.multi_plate': 'This project holds {n} plates. Orca-Flashforge slices the selected plate only — switch plates on the bottom bar to print the rest.',
+      'w.multi_plate_bed_mismatch': 'This project holds {n} plates and the source bed ({sx}×{sy}) differs from the Creator 5\u2019s ({tx}×{ty}). Nothing was moved, because each plate has its own origin — check every plate and press A to arrange.',
+      'w.extruder_clamped': '{n} parts were assigned an extruder above slot {max} and were moved to slot {max}.',
+      'w.donor_bad': 'No profile could be read from that file. It needs to be a .3mf saved by Orca-Flashforge (containing Metadata/project_settings.config).',
+      'w.donor_not_c5': 'That donor file belongs to "{printer}", not a Creator 5. It will still be used — just make sure that is what you want.',
+
+      'err.title': 'Error',
+      'err.NO_MODEL': 'This file has no valid 3MF geometry (3D/3dmodel.model is missing).',
+      'err.BAD_ZIP': 'Could not unpack it. The file may be corrupt or not a .3mf.',
+      'err.generic': 'This file could not be converted.',
+
+      'how.title': 'How to use it',
+      'how.1': 'Download the model’s .3mf from MakerWorld (Download → Print Profile, or Original File).',
+      'how.2': 'Drop it in the box on the left, set the options if you want, then press Convert and download the result.',
+      'how.3': 'Open the result in Orca-Flashforge, check the filament in each slot and the placement on the plate.',
+      'how.4': 'Slice and send it to the printer as usual.',
+      'how.note': 'This tool rewrites settings, not geometry. Models designed around an AMS or a bed larger than 256×256 still need a manual pass.'
+    }
+  };
+
+  var lang = 'vi';
+
+  function t(key, vars) {
+    var s = (STRINGS[lang] && STRINGS[lang][key]) || STRINGS.vi[key] || key;
+    if (vars) {
+      s = s.replace(/\{(\w+)\}/g, function (all, k) {
+        return (vars[k] === undefined || vars[k] === null) ? all : String(vars[k]);
+      });
+    }
+    return s;
+  }
+
+  return {
+    t: t,
+    get lang() { return lang; },
+    set: function (l) { lang = STRINGS[l] ? l : 'vi'; },
+    languages: ['vi', 'en']
+  };
+});
